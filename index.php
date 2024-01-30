@@ -33,18 +33,18 @@
   <div class="container-fluid px-lg-4 mt-4">
     <div class="swiper swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="https://t3.ftcdn.net/jpg/04/60/44/42/360_F_460444211_E7j3njYE705Rk1guKz9LKh58gFgiTybV.jpg"
-            class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="https://wallpaperswide.com/download/bmw_i8_car_concept-wallpaper-2560x800.jpg"
-            class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="https://www.izmostock.com/wp-content/uploads/2018/04/izmostock_MainBanner_05.jpg"
-            class="w-100 d-block" />
-        </div>
+        <?php 
+           $res = selectAll('carousel');
+           while($row = mysqli_fetch_assoc($res))
+           {
+             $path = CAROUSEL_IMG_PATH;
+             echo <<<data
+              <div class="swiper-slide">
+               <img src="$path$row[image]" class="w-100 d-block" />
+             </div>
+             data;
+            }
+        ?>
       </div>
     </div>
   </div>
