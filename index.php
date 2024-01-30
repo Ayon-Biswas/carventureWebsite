@@ -339,35 +339,45 @@
         <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Testimonials >>></a>
       </div>
 <!-- Find Us @ -->
+<?php
+
+$contacts_q = "SELECT * FROM `contact_details` WHERE `sr_no`=?";
+$values = [1];
+$contact_r = mysqli_fetch_assoc(select($contacts_q,$values,'i'));
+// print_r($contact_r)
+
+?>
+
+
 <h2 class="mt-5 pt-4 text-center fw-bold h-font">Find Us @</h2>
 
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-8 p-4 mb-lg-0 mb-3 bg-white rounded">
-     <iframe class="w-100 rounded" height="320px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.8376974352786!2d91.8000509783347!3d24.869392287999677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3751015addbec3b7%3A0x9e87b7be58b5f67e!2sLeading%20University!5e0!3m2!1sen!2sbd!4v1705842040254!5m2!1sen!2sbd" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+     <iframe class="w-100 rounded" height="320px" src="<?php echo $contact_r['iframe']?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="col-lg-4 col-md-4">
       <div class="bg-white p-4 rounded mb-4">
         <h5>Call Us</h5>
-        <a class="d-inline-block mb-2 text-decoration-none text-dark" href="tel: 01712140810">
-        <i class="bi bi-telephone-fill"></i>01712140810
+        <a class="d-inline-block mb-2 text-decoration-none text-dark" href="tel: <?php echo $contact_r['pn1']?>">
+        <i class="bi bi-telephone-fill"></i><?php echo $contact_r['pn1']?>
         </a>
         <br>
-        <a class="d-inline-block text-decoration-none text-dark" href="tel: 01312892300">
-        <i class="bi bi-telephone-fill"></i>01312892300
+        <a class="d-inline-block text-decoration-none text-dark" href="tel: <?php echo $contact_r['pn2']?>">
+        <i class="bi bi-telephone-fill"></i><?php echo $contact_r['pn2']?>
         </a>
       </div>
       <div class="bg-white p-4 rounded mb-4">
         <h5>Follow Us</h5>
-        <a class="d-inline-block mb-3" href="#">
-        <span class="badge bg-light text-dark fs-6 p-2"><i class="bi bi-twitter-x"></i> Twitter</span>
+        <a class="d-inline-block mb-3" href="<?php echo $contact_r['tw']?>" target="_blank">
+        <span class="badge bg-light text-dark fs-6 p-2"><i class="bi bi-twitter-x"></i>Twitter </span>
         </a>
         <br>
-        <a class="d-inline-block mb-3" href="#">
+        <a class="d-inline-block mb-3" href="<?php echo $contact_r['fb']?>" target="_blank">
         <span class="badge bg-light text-dark fs-6 p-2"><i class="bi bi-facebook"></i> Facebook</span>
         </a>
         <br>
-        <a class="d-inline-block text-decoration-none text-dark" href="#">
+        <a class="d-inline-block text-decoration-none text-dark" href="<?php echo $contact_r['git']?>" target="_blank">
         <span class="badge bg-light text-dark fs-6 p-2"><i class="bi bi-github"></i> Github</span>
         </a>
       </div>
