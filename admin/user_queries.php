@@ -8,7 +8,14 @@ if(isset($_GET['seen']))
     $frm_data = filteration($_GET);
 
     if($frm_data['seen']=='all'){ //all is for implementing Mark all as read
-
+        $q="UPDATE `user_queries` SET `seen`=?";
+        $values=[1]; //we have passed 1 to `seen` which will mark all as read
+        if(update($q,$values,'i')){   //'ii' means data type.integer(i).update is coded in db_config.php
+          alert('success','Marked all as read');
+        }
+        else{
+          alert('error','Operation Failed');
+        } 
     }
     else{
       $q="UPDATE `user_queries` SET `seen`=? WHERE `sr_no`=?";
@@ -27,7 +34,13 @@ if(isset($_GET['del']))
     $frm_data = filteration($_GET);
 
     if($frm_data['del']=='all'){ //all is for implementing delete all 
-
+        $q="DELETE FROM `user_queries`";
+        if(mysqli_query($con,$q)){   //in delete all we have no values to pass.
+          alert('success','All Data deleted!');
+        }
+        else{
+          alert('error','Operation Failed');
+        }
     }
     else{
       $q="DELETE FROM `user_queries` WHERE `sr_no`=?";
@@ -62,10 +75,15 @@ if(isset($_GET['del']))
                 <!-- User Queries section -->
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
-
+                     <!-- Mark all as read & Delete all button -->
                      <!-- text-end means data will be alligned to right side -->
-                        <div class="text-end mb-4"> //
-                          
+                        <div class="text-end mb-4"> 
+                          <a href="?seen=all" class="btn btn-dark rounded-pill shadow-none btn-sm">
+                            <i class="bi bi-check-all"></i> Mark all read
+                          </a>
+                          <a href="?del=all" class="btn btn-danger rounded-pill shadow-none btn-sm">
+                            <i class="bi bi-trash"></i> Delete all
+                          </a>
                         </div>
                         <div class="table-responsive-md" style="height: 450px; overflow-y: scroll;">
                             <table class="table table-hover border">
@@ -85,11 +103,12 @@ if(isset($_GET['del']))
                                      $q= "SELECT * FROM `user_queries` ORDER BY `sr_no` DESC"; //DESC stands for descending order.So that we can see new data first.
                                      $data = mysqli_query($con,$q); //manual query no value passed all fixed.
                                      $i=1; //number of rows present till that will counting go
-
+                                     
+                                     //mark as seen and delete button section
                                      while($row = mysqli_fetch_assoc($data)){
                                         $seen ='';
                                         if($row['seen']!=1){
-                                          $seen = "<a href='?seen=$row[sr_no]' class='btn btn-sm rounded-pill btn-primary'>Mark as read</a>";//anchor tag sends GET request to mark as seen
+                                          $seen = "<a href='?seen=$row[sr_no]' class='btn btn-sm rounded-pill btn-primary'>Mark as read</a> <br>";//anchor tag sends GET request to mark as seen
                                         }
                                          $seen.="<a href='?del=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger mt-2'>Delete</a>";//anchor tag sends GET request to delete
                                         //heredoc method of printing 
