@@ -13,6 +13,11 @@
      </div>
     `;
     document.body.append(element);
+    setTimeout(remAlert,2000); //2000 milisecond is 2 seconds
+  }
+
+  function remAlert(){
+    document.getElementByClassName('alert')[0].remove();//any tag that has the class "alert" the 0th element will be removed.Alerts won't stack on each other
   }
 </script>
 <script>

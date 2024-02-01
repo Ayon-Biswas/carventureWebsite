@@ -3,56 +3,6 @@ require ('inc/essentials.php');
 require ('inc/db_config.php');
 adminLogin();
 
-if(isset($_GET['seen']))
-{
-    $frm_data = filteration($_GET);
-
-    if($frm_data['seen']=='all'){ //all is for implementing Mark all as read
-        $q="UPDATE `user_queries` SET `seen`=?";
-        $values=[1]; //we have passed 1 to `seen` which will mark all as read
-        if(update($q,$values,'i')){   //'ii' means data type.integer(i).update is coded in db_config.php
-          alert('success','Marked all as read');
-        }
-        else{
-          alert('error','Operation Failed');
-        } 
-    }
-    else{
-      $q="UPDATE `user_queries` SET `seen`=? WHERE `sr_no`=?";
-      $values=[1,$frm_data['seen']]; //we have to pass 1 to `seen`
-      if(update($q,$values,'ii')){   //'ii' means data type.integer(i).update is coded in db_config.php
-        alert('success','Marked as read');
-      }
-      else{
-        alert('error','Operation Failed');
-      }    
-    }
-}
-
-if(isset($_GET['del']))
-{
-    $frm_data = filteration($_GET);
-
-    if($frm_data['del']=='all'){ //all is for implementing delete all 
-        $q="DELETE FROM `user_queries`";
-        if(mysqli_query($con,$q)){   //in delete all we have no values to pass.
-          alert('success','All Data deleted!');
-        }
-        else{
-          alert('error','Operation Failed');
-        }
-    }
-    else{
-      $q="DELETE FROM `user_queries` WHERE `sr_no`=?";
-      $values=[$frm_data['del']]; //we have to pass the id `del`
-      if(delete($q,$values,'i')){   //'i' means data type.integer(i).delete is coded in db_config.php
-        alert('success','Data deleted!');
-      }
-      else{
-        alert('error','Operation Failed');
-      }    
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

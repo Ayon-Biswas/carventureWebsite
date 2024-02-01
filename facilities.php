@@ -32,72 +32,23 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
+   <?php 
+   $res= selectAll('facilities');
+   $path= FACILITIES_IMG_PATH;
+   while($row = mysqli_fetch_assoc($res)){
+     echo<<<data
+     <div class="col-lg-4 col-md-6 mb-5 px-4">
       <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
         <div class="d-flex align-items-center mb-2">
-         <img src="images/features/android.svg" width="40px">
-         <h5 class="m-0 ms-3">Android Auto</h5>
+         <img src="$path$row[icon]" width="40px">
+         <h5 class="m-0 ms-3">$row[name]</h5>
         </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
+        <p>$row[description]</p>
       </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
-      <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-        <div class="d-flex align-items-center mb-2">
-         <img src="images/features/apple.svg" width="40px">
-         <h5 class="m-0 ms-3">Apple Carplay</h5>
-        </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
-      <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-        <div class="d-flex align-items-center mb-2">
-         <img src="images/features/wind.svg" width="40px">
-         <h5 class="m-0 ms-3">AC enabled</h5>
-        </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
-      <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-        <div class="d-flex align-items-center mb-2">
-         <img src="images/features/bluetooth.svg" width="40px">
-         <h5 class="m-0 ms-3">Bluetooth</h5>
-        </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
-      <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-        <div class="d-flex align-items-center mb-2">
-         <img src="images/features/camera-video-fill.svg" width="40px">
-         <h5 class="m-0 ms-3">Backup Camera</h5>
-        </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-5 px-4">
-      <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-        <div class="d-flex align-items-center mb-2">
-         <img src="images/features/eye-slash-fill.svg" width="40px">
-         <h5 class="m-0 ms-3">Blind Spot Monitoring</h5>
-        </div>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi doloremque aperiam distinctio ducimus eaque hic facere!
-        </p>
-      </div>
-    </div>
+     </div>
+     data;
+   }
+   ?>
   </div>
 </div>
 
