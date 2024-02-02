@@ -41,9 +41,17 @@ if(isset($_POST['rem_feature']))
    $frm_data = filteration($_POST);
    $values = [$frm_data['rem_feature']];
 
-   $q="DELETE FROM `features` WHERE `id`=?";
+   $check_q= select('SELECT * FROM `car_features` WHERE `features_id`=?',[$frm_data['rem_feature']],'i'); //checks if a feature is added in car.if added then deleting the feature wont work.
+
+   if(mysqli_num_rows($check_q)==0){
+    $q="DELETE FROM `features` WHERE `id`=?";
    $res = delete($q,$values,'i');
    echo $res;
+   }
+   else{
+    echo 'car_added';
+   }
+   
 }
 
 // functions for facilities
@@ -100,18 +108,27 @@ if(isset($_POST['rem_facility']))
    $frm_data = filteration($_POST);   
    $values = [$frm_data['rem_facility']];
 
-   $pre_q = "SELECT * FROM `facilities` WHERE `id`=?";
-   $res= select($pre_q,$values,'i');
-   $img = mysqli_fetch_assoc($res);
+   $check_q= select('SELECT * FROM `car_facilities` WHERE `facilities_id`=?',[$frm_data['rem_facility']],'i'); //checks if a feature is added in car.if added then deleting the feature wont work.
 
-   if(deleteImage($img['icon'],FACILITIES_FOLDER)){  //this block of code deletes icon from folder and db 
-    $q="DELETE FROM `facilities` WHERE `id`=?";
-    $res = delete($q,$values,'i');
-   echo $res;
+   if(mysqli_num_rows($check_q)==0)
+   {
+    $pre_q = "SELECT * FROM `facilities` WHERE `id`=?";
+    $res= select($pre_q,$values,'i');
+    $img = mysqli_fetch_assoc($res);
+
+    if(deleteImage($img['icon'],FACILITIES_FOLDER)){  //this block of code deletes icon from folder and db 
+     $q="DELETE FROM `facilities` WHERE `id`=?";
+     $res = delete($q,$values,'i');
+    echo $res;
+    }
+     else{
+      echo 0; 
+     }
    }
    else{
-     echo 0; 
+    echo 'car_added';
    }
+   
    
 }
 
