@@ -326,33 +326,83 @@ adminLogin();
 
   let edit_car_form = document.getElementById('edit_car_form');
 
-  function edit_details(id)
-  {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "ajax/cars.php", true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  //need some observation
+  function edit_details(id) {
+   let xhr = new XMLHttpRequest();
+   xhr.open("POST", "ajax/cars.php", true);
+   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    xhr.onload = function () {
-     let data= JSON.parse(this.responseText);
-     edit_car_form.elements['name'].value = data.cardata.name; //gets the name of car name in the edit car modal name input
-     edit_car_form.elements['milage'].value = data.cardata.milage;
-     edit_car_form.elements['price'].value = data.cardata.price;
-     edit_car_form.elements['quantity'].value = data.cardata.quantity;
-     edit_car_form.elements['adult'].value = data.cardata.adult;
-     edit_car_form.elements['children'].value = data.cardata.children;
-     edit_car_form.elements['desc'].value = data.cardata.description;
-     edit_car_form.elements['car_id'].value = data.cardata.id;
-    
-     facilityElements = add_car_form.elements['facilities'];
-      for (let i = 0; i < facilityElements.length; i++) {
-         if (facilityElements[i].type === 'checkbox' && facilityElements[i].checked) {
-           facilities.push(facilityElements[i].value);
-          }
-      }
+   xhr.onload = function () {
+    let data = JSON.parse(this.responseText);
+    edit_car_form.elements['name'].value = data.cardata.name;
+    edit_car_form.elements['milage'].value = data.cardata.milage;
+    edit_car_form.elements['price'].value = data.cardata.price;
+    edit_car_form.elements['quantity'].value = data.cardata.quantity;
+    edit_car_form.elements['adult'].value = data.cardata.adult;
+    edit_car_form.elements['children'].value = data.cardata.children;
+    edit_car_form.elements['desc'].value = data.cardata.description;
+    edit_car_form.elements['car_id'].value = data.cardata.id;
+
+   }
+    xhr.send('get_car=' + id);
+  }
+
+  edit_car_form.addEventListener('submit',function(e){
+      e.preventDefault();
+      submit_edit_car();
+    });
+
+    function  submit_edit_car() {
+  let data = new FormData();
+  data.append('edit_car', '');
+  data.append('car_id', edit_car_form.elements['car_id'].value);
+  data.append('name', edit_car_form.elements['name'].value);
+  data.append('milage', edit_car_form.elements['milage'].value);
+  data.append('price', edit_car_form.elements['price'].value);
+  data.append('quantity', edit_car_form.elements['quantity'].value);
+  data.append('adult', edit_car_form.elements['adult'].value);
+  data.append('children', edit_car_form.elements['children'].value);
+  data.append('desc', edit_car_form.elements['desc'].value);
+
+  // Accessing features of form. The data of which is coming from the database as inputs and labels.
+  let features = [];
+  let featureElements = edit_car_form.elements['features'];
+  for (let i = 0; i < featureElements.length; i++) {
+    if (featureElements[i].type === 'checkbox' && featureElements[i].checked) {
+      features.push(featureElements[i].value);
     }
-    xhr.send('get_car='+id);
-  } 
-  
+  }
+
+  // Accessing facilities of form. The data of which is coming from the database as inputs and labels.
+  let facilities = [];
+  let facilityElements = edit_car_form.elements['facilities'];
+  for (let i = 0; i < facilityElements.length; i++) {
+    if (facilityElements[i].type === 'checkbox' && facilityElements[i].checked) {
+      facilities.push(facilityElements[i].value);
+    }
+  }
+
+  data.append('features', JSON.stringify(features));
+  data.append('facilities', JSON.stringify(facilities));
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "ajax/cars.php", true);
+
+  xhr.onload = function () {
+    var myModal = document.getElementById('edit-car');
+    var modal = bootstrap.Modal.getInstance(myModal);
+    modal.hide();
+
+    if (this.responseText == 1) {
+      alert('success', 'Car Data Edited');
+      edit_car_form.reset();
+      get_all_cars();
+    } else {
+      alert('error', 'Server down!');
+    }
+  }
+    xhr.send(data);
+  }
 
   function toggle_status(id,val){
     let xhr = new XMLHttpRequest();

@@ -139,6 +139,68 @@ if(isset($_POST['get_car'])){ //getting all room data of selected room in edit r
   echo $data;
 }
 
+if(isset($_POST['edit_car']))
+{
+  $frm_data = filteration($_POST); // Use the original POST data for further processing
+  $flag = 0;
+
+  $q1 = "UPDATE `cars` SET `name`=?,`milage`=?,`price`=?,`quantity`=?,`adult`=?,`children`=?,`description`=? WHERE `id` =?";
+  $values = [$frm_data['name'], $frm_data['milage'], $frm_data['price'], $frm_data['quantity'], $frm_data['adult'], $frm_data['children'], $frm_data['desc'], $frm_data['car_id']];
+  if(update($q1,$values,'siiiiisi')){
+    $flag = 1;
+  }
+  $del_features = delete("DELETE FROM `car_features` WHERE `car_id`=?",[$frm_data['car_id']], 'i');
+  $del_facilities = delete("DELETE FROM `car_facilities` WHERE `car_id`=?",[$frm_data['car_id']], 'i');
+
+  if(!( $del_facilities && $del_features)){
+   $flag=0;
+  }
+
+  $q2 = "INSERT INTO `car_facilities`(`car_id`, `facilities_id`) VALUES (?,?)";
+  if ($stmt = mysqli_prepare($con, $q2))
+  {
+    // Use json_decode to convert the JSON string back to an array
+    $facilities = json_decode($_POST['facilities'], true);
+
+    foreach ($facilities as $f) {
+      mysqli_stmt_bind_param($stmt, 'ii', $car_id, $f);
+      mysqli_stmt_execute($stmt);
+    }
+    $flag=1;
+    mysqli_stmt_close($stmt);
+  }
+  else {
+    $flag = 0;
+    die('query cannot be prepared - insert');
+  }
+
+  $q3 = "INSERT INTO `car_features`(`car_id`, `features_id`) VALUES (?,?)";
+  if ($stmt = mysqli_prepare($con, $q3))
+  {
+    // Use json_decode to convert the JSON string back to an array
+    $features = json_decode($_POST['features'], true);
+
+    foreach ($features as $f) {
+      mysqli_stmt_bind_param($stmt, 'ii', $car_id, $f);
+      mysqli_stmt_execute($stmt);
+    }
+    $flag = 1;
+    mysqli_stmt_close($stmt);
+  }
+  else {
+    $flag = 0;
+    die('query cannot be prepared - insert');
+  }
+
+  if ($flag) {
+    echo 1;
+  }
+  else {
+    echo 0;
+  }
+
+}
+
 if(isset($_POST['toggle_status'])){ //toggeling room status with button click
   $frm_data= filteration($_POST);
 
