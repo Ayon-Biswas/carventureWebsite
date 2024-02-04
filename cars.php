@@ -19,9 +19,9 @@
     <div class="h-line bg-dark"></div>
   </div>
 
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-md-12 mb-lg-0 mb-4">
+      <div class="col-lg-3 col-md-12 mb-lg-0 mb-4 ps-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow">
           <div class="container-fluid flex-lg-column align-items-stretch">
             <h4 class="mt-2">FILTERS</h4>
@@ -71,142 +71,90 @@
         </nav>
       </div>
 
-      <div class="col-lg-9 col-md-12 px-lg-0">
+      <div class="col-lg-9 col-md-12 px-4">
+
+      <?php 
+      $car_res =select("SELECT * FROM `cars` WHERE `status`=? AND `removed`=?",[1,0],'ii'); //`status` should be 1 `removed` should be 0."ii" are integer datatypes.
+
+      while($car_data = mysqli_fetch_assoc($car_res))
+      {
+        //get features of car
+        $fea_q = mysqli_query($con,"SELECT f.name FROM `features` f 
+        INNER JOIN `car_features` cfea ON f.id = cfea.features_id 
+        WHERE cfea.car_id = '$car_data[id]'");
+
+        $features_data = "";
+
+        while($fea_row = mysqli_fetch_assoc($fea_q)){
+          $features_data .="<span class='badge rounded-pill bg-light text-dark text-wrap'>$fea_row[name]</span>";
+
+        }
+        //get facilities of car
+        $fac_q = mysqli_query($con,"SELECT f.name FROM `facilities` f 
+        INNER JOIN `car_facilities` cfac ON f.id = cfac.facilities_id 
+        WHERE cfac.car_id = '$car_data[id]'");
+
+        $facilities_data = "";
+
+        while($fac_row = mysqli_fetch_assoc($fac_q)){
+          $facilities_data .="<span class='badge rounded-pill bg-light text-dark text-wrap'>$fac_row[name]</span>";
+       }
+       //get thumbnail of image.if no thumbnail is selected then the deafult image will be shown.
+       
+       $car_thumb = CARS_IMG_PATH."thumbnail.png";
+       $thumb_q=mysqli_query($con,"SELECT * FROM `car_images` WHERE `car_id`='$car_data[id]' AND `thumb`='1'");
+
+       if(mysqli_num_rows($thumb_q)>0){
+        $thumb_res = mysqli_fetch_assoc($thumb_q);
+        $car_thumb = CARS_IMG_PATH.$thumb_res['image'];
+       }
+
+       //print Car Card section.heredoc method of printing. feature and facility data not fetching as it did'nt in scripts/cars.js
+        echo <<<data
+        
+
         <div class="card mb-4 border-0 shadow">
-          <!-- g-0 means gutter 0.gutter is the gap between column and content created by horizontal line -->
-          <div class="row g-0 p-3 align-items-center">
-            <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-              <img
-                src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-                class="img-fluid rounded">
+        <!-- g-0 means gutter 0.gutter is the gap between column and content created by horizontal line -->
+        <div class="row g-0 p-3 align-items-center">
+          <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
+            <img
+              src="$car_thumb" class="img-fluid rounded">
+          </div>
+          <div class="col-md-5 px-lg-3 px-md-3 px-0">
+            <h5 class="mb-3">$car_data[name]</h5>
+            <div class="features mb-3">
+              <h6 class="mb-1">Features</h6>
+              $features_data 
             </div>
-            <div class="col-md-5 px-lg-3 px-md-3 px-0">
-              <h5 class="mb-3">Simple Car Name</h5>
-              <div class="features mb-3">
-                <h6 class="mb-1">Features</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  180 hp
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  4 seater
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Heated Seats in winter
-                </span>
-              </div>
-              <div class="facilities mb-3">
-                <h6 class="mb-1">Facilities</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Bluetooth connectivity
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Keyless Entry
-                </span>
-              </div>
-              <div class="passengers">
-                <h6 class="mb-1">Passengers</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  5 Passengers
-                </span>
-              </div>
+            <div class="facilities mb-3">
+              <h6 class="mb-1">Facilities</h6>
+              $facilities_data
             </div>
-            <div class="col-md-2 text-center">
-             <h6 class="mb-4">৳2000 Per day</h6>
-              <a href="#" class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book Now</a>
-              <a href="#" class="btn btn-sm w-100 btn-outline-dark shadow-none">More Details</a>
+            <div class="passengers">
+              <h6 class="mb-1">Passengers</h6>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                $car_data[adult] Adults
+              </span>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+              $car_data[children] Children
+              </span>
             </div>
           </div>
-        </div>
-        <div class="card mb-4 border-0 shadow">
-          <!-- g-0 means gutter 0.gutter is the gap between column and content created by horizontal line -->
-          <div class="row g-0 p-3 align-items-center">
-            <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-              <img
-                src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-                class="img-fluid rounded">
-            </div>
-            <div class="col-md-5 px-lg-3 px-md-3 px-0">
-              <h5 class="mb-3">Simple Car Name</h5>
-              <div class="features mb-3">
-                <h6 class="mb-1">Features</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  180 hp
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  4 seater
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Heated Seats in winter
-                </span>
-              </div>
-              <div class="facilities mb-3">
-                <h6 class="mb-1">Facilities</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Bluetooth connectivity
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Keyless Entry
-                </span>
-              </div>
-              <div class="passengers">
-                <h6 class="mb-1">Passengers</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  5 Passengers
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2 text-center">
-             <h6 class="mb-4">৳2000 Per day</h6>
-              <a href="#" class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book Now</a>
-              <a href="#" class="btn btn-sm w-100 btn-outline-dark shadow-none">More Details</a>
-            </div>
+          <div class="col-md-2 text-center">
+           <h6 class="mb-4">৳$car_data[price] Per day</h6>
+            <a href="#" class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book Now</a>
+            <a href="#" class="btn btn-sm w-100 btn-outline-dark shadow-none">More Details</a>
           </div>
         </div>
-        <div class="card mb-4 border-0 shadow">
-          <!-- g-0 means gutter 0.gutter is the gap between column and content created by horizontal line -->
-          <div class="row g-0 p-3 align-items-center">
-            <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-              <img
-                src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-                class="img-fluid rounded">
-            </div>
-            <div class="col-md-5 px-lg-3 px-md-3 px-0">
-              <h5 class="mb-3">Simple Car Name</h5>
-              <div class="features mb-3">
-                <h6 class="mb-1">Features</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  180 hp
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  4 seater
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Heated Seats in winter
-                </span>
-              </div>
-              <div class="facilities mb-3">
-                <h6 class="mb-1">Facilities</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Bluetooth connectivity
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  Keyless Entry
-                </span>
-              </div>
-              <div class="passengers">
-                <h6 class="mb-1">Passengers</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  5 Passengers
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2 text-center">
-             <h6 class="mb-4">৳2000 Per day</h6>
-              <a href="#" class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book Now</a>
-              <a href="#" class="btn btn-sm w-100 btn-outline-dark shadow-none">More Details</a>
-            </div>
-          </div>
         </div>
+
+
+        data;
+      }
+      ?>
+
+      
+
       </div>
 
     </div>
