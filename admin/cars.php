@@ -251,6 +251,44 @@ adminLogin();
     </div>
   </div>
 
+  <!-- Manage Car images modal section -->
+ <div class="modal fade" id="car-images" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Car Name</h5>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="image-alert">
+
+        </div>
+        <div class="border-bottom border-3 pb-3 mb-3">
+          <form id="add_image_form">
+           <label class="form-label fw-bold">Add Image</label>
+           <input type="file" name="image" accept=".jpg,.png,.webp,.jpeg" class="form-control shadow-none mb-3" required>
+           <button class="btn custom-bg text-white shadow-none">ADD</button>
+           <input type="hidden" name="car_id">
+          </form>
+        </div>
+        <div class="table-responsive-lg" style="height: 350px; overflow-y: scroll;">
+              <table class="table table-hover border text-center">
+                <thead>
+                  <tr class="bg-dark text-light sticky-top">
+                    <th scope="col" width="60%">Image</th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody id="car-image-data">
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+ </div>
+
 
   <?php require ('inc/scripts.php');?>
   <script>
@@ -262,42 +300,42 @@ adminLogin();
     });
 
 
-  function add_car() {
-  let data = new FormData();
-  data.append('add_car', '');
-  data.append('name', add_car_form.elements['name'].value);
-  data.append('milage', add_car_form.elements['milage'].value);
-  data.append('price', add_car_form.elements['price'].value);
-  data.append('quantity', add_car_form.elements['quantity'].value);
-  data.append('adult', add_car_form.elements['adult'].value);
-  data.append('children', add_car_form.elements['children'].value);
-  data.append('desc', add_car_form.elements['desc'].value);
+   function add_car() {
+   let data = new FormData();
+   data.append('add_car', '');
+   data.append('name', add_car_form.elements['name'].value);
+   data.append('milage', add_car_form.elements['milage'].value);
+   data.append('price', add_car_form.elements['price'].value);
+   data.append('quantity', add_car_form.elements['quantity'].value);
+   data.append('adult', add_car_form.elements['adult'].value);
+   data.append('children', add_car_form.elements['children'].value);
+   data.append('desc', add_car_form.elements['desc'].value);
 
-  // Accessing features of form. The data of which is coming from the database as inputs and labels.
-  let features = [];
-  let featureElements = add_car_form.elements['features'];
-  for (let i = 0; i < featureElements.length; i++) {
+   // Accessing features of form. The data of which is coming from the database as inputs and labels.
+   let features = [];
+   let featureElements = add_car_form.elements['features'];
+   for (let i = 0; i < featureElements.length; i++) {
     if (featureElements[i].type === 'checkbox' && featureElements[i].checked) {
       features.push(featureElements[i].value);
     }
-  }
+   }
 
-  // Accessing facilities of form. The data of which is coming from the database as inputs and labels.
-  let facilities = [];
-  let facilityElements = add_car_form.elements['facilities'];
-  for (let i = 0; i < facilityElements.length; i++) {
+   // Accessing facilities of form. The data of which is coming from the database as inputs and labels.
+   let facilities = [];
+   let facilityElements = add_car_form.elements['facilities'];
+   for (let i = 0; i < facilityElements.length; i++) {
     if (facilityElements[i].type === 'checkbox' && facilityElements[i].checked) {
       facilities.push(facilityElements[i].value);
     }
-  }
+   }
 
-  data.append('features', JSON.stringify(features));
-  data.append('facilities', JSON.stringify(facilities));
+   data.append('features', JSON.stringify(features));
+   data.append('facilities', JSON.stringify(facilities));
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "ajax/cars.php", true);
+   let xhr = new XMLHttpRequest();
+   xhr.open("POST", "ajax/cars.php", true);
 
-  xhr.onload = function () {
+   xhr.onload = function () {
     var myModal = document.getElementById('add-car');
     var modal = bootstrap.Modal.getInstance(myModal);
     modal.hide();
@@ -309,9 +347,9 @@ adminLogin();
     } else {
       alert('error', 'Server down!');
     }
-  }
+   }
     xhr.send(data);
-  }
+   }
   
   function get_all_cars(){
     let xhr = new XMLHttpRequest();
@@ -421,10 +459,138 @@ adminLogin();
     xhr.send('toggle_status='+id+'&value='+val);
   }
 
+  // images of car section
+  let add_image_form = document.getElementById('add_image_form');
+
+  add_image_form.addEventListener('submit',function(e){
+    e.preventDefault();
+    add_image();
+  });
+
+  function add_image() {
+    let data = new FormData();
+    data.append('image',add_image_form.elements['image'].files[0]);
+    data.append('car_id',add_image_form.elements['car_id'].value);
+    data.append('add_image','');
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","ajax/cars.php",true);//we are using FormData.So no need for request header.
+
+    xhr.onload = function()
+    {
+        if (this.responseText == 'inv_img') {
+            alert('error', 'only JPG, WEBP, JPEG or PNG are allowed!','image-alert');
+        } 
+        else if (this.responseText == 'inv_size') {
+            alert('error', 'Image should be less than 2MB!','image-alert');
+        } 
+        else if (this.responseText == 'upd_failed') {
+            alert('error', 'Image upload failed. Server down!','image-alert');
+        } 
+        else {
+            alert('success', 'New Image Added','image-alert');
+            car_images(add_image_form.elements['car_id'].value,document.querySelector("#car-images .modal-title").innerText);
+            add_image_form.reset();
+            
+        }
+    }
+    xhr.send(data);
+  }
+
+  function car_images(id,cname)
+  {
+    //selecting the name of car within #car-image a class named ".modal-title" and put in innertext
+    document.querySelector("#car-images .modal-title").innerText = cname;
+    add_image_form.elements['car_id'].value = id;
+    add_image_form.elements['image'].value = '';//suppose if we select an image and dont upload it the shouldn't remain selected.if we close the modal the it will be fresh
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax/cars.php", true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+     document.getElementById('car-image-data').innerHTML = this.responseText;
+    }
+    xhr.send('get_car_images='+id);
+
+  }
+
+  function rem_image(img_id,car_id)
+  {
+    let data = new FormData();
+    data.append('image_id',img_id);
+    data.append('car_id',car_id);
+    data.append('rem_image','');
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","ajax/cars.php",true);//we are using FormData.So no need for request header.
+
+    xhr.onload = function()
+    {
+        if (this.responseText == 1) {
+          alert('success', 'Image Removed','image-alert');
+          car_images(car_id,document.querySelector("#car-images .modal-title").innerText);
+        } 
+        else {
+          alert('error', 'Image removal failed!','image-alert');
+        }
+    }
+    xhr.send(data);
+  }
+
+  function thumb_image(img_id,car_id)
+  {
+    let data = new FormData();
+    data.append('image_id',img_id);
+    data.append('car_id',car_id);
+    data.append('thumb_image','');
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","ajax/cars.php",true);//we are using FormData.So no need for request header.
+
+    xhr.onload = function()
+    {
+        if (this.responseText == 1) {
+          alert('success', 'Image Thumbnail changed','image-alert');
+          car_images(car_id,document.querySelector("#car-images .modal-title").innerText);
+        } 
+        else {
+          alert('error', 'Thumbnail Update failed!','image-alert');
+        }
+    }
+    xhr.send(data);
+  }
+
+  function remove_car(car_id)
+  {
+    if(confirm("Are you sure you want to delete this car?")) //confirm() method of js shows a dialog box with a message,OK and Cancel button
+    {
+      let data = new FormData();
+      data.append('car_id',car_id);
+      data.append('remove_car','');
+
+      let xhr = new XMLHttpRequest();
+     xhr.open("POST","ajax/cars.php",true);//we are using FormData.So no need for request header.
+
+     xhr.onload = function()
+     {
+        if (this.responseText == 1) {
+          alert('success', 'Car Removed');
+          get_all_cars();
+        } 
+        else {
+          alert('error', 'Car removal failed!');
+        }
+     }
+    xhr.send(data);
+    }
+    
+  }
+
   window.onload = function(){
     get_all_cars();
   }
-  </script>
+</script>
 
 </body>
 

@@ -4,12 +4,14 @@
 define('SITE_URL','http://127.0.0.1/carventureWebsite/');
 define('CAROUSEL_IMG_PATH',SITE_URL.'images/carousel/');
 define('FACILITIES_IMG_PATH',SITE_URL.'images/facilities/');
+define('CARS_IMG_PATH',SITE_URL.'images/cars/');
 
 
 //backend upload process
 define('UPLOAD_IMAGE_PATH',$_SERVER['DOCUMENT_ROOT'].'/carventureWebsite/images/'); //returns absolute path of server and folder
 define('CAROUSEL_FOLDER','carousel/');
 define('FACILITIES_FOLDER','facilities/');
+define('CARS_FOLDER','cars/');
 
 
 

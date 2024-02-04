@@ -3,7 +3,7 @@
 </script>
 
 <script>
-  function alert(type,msg){
+  function alert(type,msg,position='body'){
     let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger';
     let element = document.createElement('div');
      element.innerHTML = `
@@ -12,12 +12,19 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
      </div>
     `;
-    document.body.append(element);
+
+    if(position=='body')
+    {
+     document.body.append(element);
+    }
+    else{
+      document.getElementById(position).appendChild(element);
+    }
     setTimeout(remAlert,2000); //2000 milisecond is 2 seconds
   }
 
   function remAlert(){
-    document.getElementByClassName('alert')[0].remove();//any tag that has the class "alert" the 0th element will be removed.Alerts won't stack on each other
+    document.getElementsByClassName('alert')[0].remove();//any tag that has the class "alert" the 0th element will be removed.Alerts won't stack on each other
   }
 </script>
 <script>

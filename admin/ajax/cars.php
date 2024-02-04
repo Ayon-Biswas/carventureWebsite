@@ -61,7 +61,7 @@ if(isset($_POST['add_car']))
 }
 
 if(isset($_POST['get_all_cars'])){
-  $res = selectAll('cars');
+  $res = select("SELECT * FROM `cars` WHERE `removed`=?",[0],'i');
   $i=1;
 
   $data = "";
@@ -70,14 +70,10 @@ if(isset($_POST['get_all_cars'])){
   { 
 
    if($row['status']==1){
-     $status = "
-     <button onclick='toggle_status($row[id],0)' class='btn btn-dark btn-sm shadow-none'>active</button>
-     ";
+     $status = "<button onclick='toggle_status($row[id],0)' class='btn btn-dark btn-sm shadow-none'>active</button>";
    }
    else{
-    $status = "
-     <button onclick='toggle_status($row[id],1)' class='btn btn-warning btn-sm shadow-none'>inactive</button>
-     ";
+    $status = "<button onclick='toggle_status($row[id],1)' class='btn btn-warning btn-sm shadow-none'>inactive</button>";
    }
 
     $data.="
@@ -99,6 +95,12 @@ if(isset($_POST['get_all_cars'])){
      <td>
         <button type='button' onclick='edit_details($row[id])' class='btn btn-primary shadow-none btn-sm' data-bs-toggle='modal' data-bs-target='#edit-car'>
          <i class='bi bi-pencil-square'></i> Edit
+        </button>
+        <button type='button' onclick=\"car_images($row[id],'$row[name]')\" class='btn btn-info shadow-none btn-sm' data-bs-toggle='modal' data-bs-target='#car-images'>
+         <i class='bi bi-images'></i> 
+        </button>
+        <button type='button' onclick='remove_car($row[id])' class='btn btn-danger shadow-none btn-sm'>
+         <i class='bi bi-trash'></i> 
         </button>
      </td>
     </tr>
@@ -216,4 +218,118 @@ if(isset($_POST['toggle_status'])){ //toggeling room status with button click
 
 }
 
+if(isset($_POST['add_image']))
+{
+ $frm_data = filteration($_POST);
+ $img_r = uploadImage($_FILES['image'],CARS_FOLDER);
+
+ if($img_r == 'inv_img'){
+  echo $img_r;
+ }
+ else if($img_r == 'inv_size'){
+  echo $img_r;
+ }
+ else if($img_r == 'upd_failed'){
+  echo $img_r;
+ }
+ else{
+  $q = "INSERT INTO `car_images`(`car_id`, `image`) VALUES (?,?)";
+  $values = [$frm_data['car_id'], $img_r];
+  $res = insert($q, $values, 'is');
+  echo $res;
+ }
+ 
+}
+
+if(isset($_POST['get_car_images']))
+{ 
+ $frm_data = filteration($_POST);
+ $res = select("SELECT * FROM `car_images` WHERE `car_id`=?",[$frm_data['get_car_images']],'i');
+
+ $path= CARS_IMG_PATH;
+
+ while($row = mysqli_fetch_assoc($res))
+ {
+  if($row['thumb']==1){
+   $thumb_btn = "<i class='bi bi-check-lg text-light bg-success px-2 py-1 rounded fs-5'><i>";
+  }
+  else{
+    $thumb_btn ="<button onclick='thumb_image($row[sr_no],$row[car_id])' class='btn btn-secondary shadow-none'>
+    <i class='bi bi-check-lg'></i>
+   </button>";
+  }
+   
+  echo<<<data
+  <tr class='align-middle'>
+   <td><img src='$path$row[image]' class='img-fluid'></td>
+   <td>$thumb_btn</td>
+   <td>
+    <button onclick='rem_image($row[sr_no],$row[car_id])' class='btn btn-danger shadow-none'>
+     <i class='bi bi-trash'></i>
+    </button>
+   </td>
+  </tr>
+  data;
+ }
+ 
+}
+
+if(isset($_POST['rem_image']))
+{
+   $frm_data = filteration($_POST);
+
+   $values = [$frm_data['image_id'],$frm_data['car_id']];
+
+   $pre_q = "SELECT * FROM `car_images` WHERE `sr_no`=? AND `car_id`=?";
+   $res= select($pre_q,$values,'ii');
+   $img = mysqli_fetch_assoc($res);
+
+   if(deleteImage($img['image'],CARS_FOLDER)){
+     $q="DELETE FROM `car_images` WHERE `sr_no`=? AND `car_id`=?";
+     $res = delete($q,$values,'ii');
+     echo $res;
+   }
+   else{
+     echo 0; 
+   }
+
+}
+
+if(isset($_POST['thumb_image']))
+{
+   $frm_data = filteration($_POST);
+
+   $pre_q="UPDATE `car_images` SET `thumb`=? WHERE `car_id`=?";
+   $pre_v=[0,$frm_data['car_id']];
+   $pre_res= update($pre_q,$pre_v,'ii');
+
+   $q="UPDATE `car_images` SET `thumb`=? WHERE `sr_no`=? AND `car_id`=?";
+   $v=[1,$frm_data['image_id'],$frm_data['car_id']];
+   $res= update($q,$v,'iii');
+
+   echo $res;
+
+}
+
+if(isset($_POST['remove_car'])) //everything associated with cars like features,facilities,1 or multiple images will be deleted.
+{
+  $frm_data = filteration($_POST);
+  $res1 = select("SELECT * FROM `car_images` WHERE `car_id`=?",[$frm_data['car_id']],'i');
+
+  while($row = mysqli_fetch_assoc($res1)){ //multiple images may come.while checks and deletes them
+   deleteImage($row['image'],CARS_FOLDER);
+  }
+  
+  $res2 = delete("DELETE FROM `car_images` WHERE `car_id`=?",[$frm_data['car_id']],'i');
+  $res3 = delete("DELETE FROM `car_features` WHERE `car_id`=?",[$frm_data['car_id']],'i');
+  $res4 = delete("DELETE FROM `car_facilities` WHERE `car_id`=?",[$frm_data['car_id']],'i');
+  $res5 = update("UPDATE `cars` SET `removed`=? WHERE `id`=?",[1,$frm_data['car_id']],'ii'); //we will not delete data from `cars` table.if user has bookings this table will miss match.
+
+  if($res2 || $res3 || $res4 || $res5){
+    echo 1;
+  }
+  else{
+    echo 0;
+  }
+}
 ?>
