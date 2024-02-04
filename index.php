@@ -251,7 +251,7 @@
       </div>
 
       <div class="col-lg-12 text-center mt-5">
-        <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Cars >>></a>
+        <a href="cars.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Cars >>></a>
       </div>
     </div>
   </div>
@@ -278,6 +278,9 @@
         <h5 class="mt-3">Bluetooth</h5>
       </div>
 
+      <div class="col-lg-12 text-center mt-5">
+        <a href="facilities.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Facilities >>></a>
+      </div>
     </div>
   </div>
 <!-- Testimonials -->
@@ -299,7 +302,7 @@
              <i class="bi bi-star-fill text-warning"></i>
              <i class="bi bi-star-fill text-warning"></i>
              <i class="bi bi-star-fill text-warning"></i>
-          </div>
+            </div>
       </div>
       <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center mb-3">

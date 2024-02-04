@@ -17,7 +17,7 @@ function add_car() {
     data.append('children', add_car_form.elements['children'].value);
     data.append('desc', add_car_form.elements['desc'].value);
 
-    // Accessing features of form. The data of which is coming from the database as inputs and labels.
+ 
     let features = [];
     let featureElements = add_car_form.elements['features'];
     for (let i = 0; i < featureElements.length; i++) {
@@ -34,6 +34,7 @@ function add_car() {
             facilities.push(facilityElements[i].value);
         }
     }
+
 
     data.append('features', JSON.stringify(features));
     data.append('facilities', JSON.stringify(facilities));
@@ -86,6 +87,19 @@ function edit_details(id) {
         edit_car_form.elements['children'].value = data.cardata.children;
         edit_car_form.elements['desc'].value = data.cardata.description;
         edit_car_form.elements['car_id'].value = data.cardata.id;
+
+        var facilitiesCheckboxList = edit_car_form.elements['facilities'];
+
+        for (var i = 0; i < facilitiesCheckboxList.length; i++) {
+            var el = facilitiesCheckboxList[i];
+
+            // Using includes without converting to Number, assuming data.facilities is an array of string values
+            if (data.facilities.includes(el.value)) {
+                el.checked = true;
+            }
+        }
+    
+
 
     }
     xhr.send('get_car=' + id);
