@@ -94,143 +94,67 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 col-md-6 my-3">
-        <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-          <img
-            src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-            class="card-img-top">
-          <div class="card-body">
-            <h5>Sample Car Name</h5>
-            <h6 class="mb-4">৳2000 Per day</h6>
-            <div class="features mb-4">
-              <h6 class="mb-1">Features</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                180 hp
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                4 seater
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Heated Seats in winter
-              </span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Facilities</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Bluetooth connectivity
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Keyless Entry
-              </span>
-            </div>
-            <div class="passengers mb-4">
-              <h6 class="mb-1">Passengers</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                5 Passengers 
-              </span>
-            </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-              </span>
-            </div>
-            <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-lg-4 col-md-6 my-3">
-        <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-          <img
-            src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-            class="card-img-top">
-          <div class="card-body">
-            <h5>Sample Car Name</h5>
-            <h6 class="mb-4">৳2000 Per day</h6>
-            <div class="features mb-4">
-              <h6 class="mb-1">Features</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                180 hp
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                4 seater
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Heated Seats in winter
-              </span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Facilities</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Bluetooth connectivity
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Keyless Entry
-              </span>
-            </div>
-            <div class="passengers mb-4">
-              <h6 class="mb-1">Passengers</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                5 Passengers 
-              </span>
-            </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-              </span>
-            </div>
-            <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <?php 
+      $car_res =select("SELECT * FROM `cars` WHERE `status`=? AND `removed`=? ORDER BY `id` DESC LIMIT 3",[1,0],'ii'); //`status` should be 1 `removed` should be 0."ii" are integer datatypes.
 
-      <div class="col-lg-4 col-md-6 my-3">
-        <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-          <img
-            src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1024,h_800/w_63,x_11,y_11,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/by1e7ylfkih7m7eji4yf/HuaHinPrivateCarCharterfromPattayabyThaiRhythm.webp"
-            class="card-img-top">
+      while($car_data = mysqli_fetch_assoc($car_res))
+      {
+        //get features of car
+        $fea_q = mysqli_query($con,"SELECT f.name FROM `features` f 
+        INNER JOIN `car_features` cfea ON f.id = cfea.features_id 
+        WHERE cfea.car_id = '$car_data[id]'");
+
+        $features_data = "";
+
+        while($fea_row = mysqli_fetch_assoc($fea_q)){
+          $features_data .="<span class='badge rounded-pill bg-light text-dark text-wrap  me-1 mb-1'>$fea_row[name]</span>";
+
+        }
+        //get facilities of car
+        $fac_q = mysqli_query($con,"SELECT f.name FROM `facilities` f 
+        INNER JOIN `car_facilities` cfac ON f.id = cfac.facilities_id 
+        WHERE cfac.car_id = '$car_data[id]'");
+
+        $facilities_data = "";
+
+        while($fac_row = mysqli_fetch_assoc($fac_q)){
+          $facilities_data .="<span class='badge rounded-pill bg-light text-dark text-wrap  me-1 mb-1'>$fac_row[name]</span>";
+       }
+       //get thumbnail of image.if no thumbnail is selected then the deafult image will be shown.
+       
+       $car_thumb = CARS_IMG_PATH."thumbnail.png";
+       $thumb_q=mysqli_query($con,"SELECT * FROM `car_images` WHERE `car_id`='$car_data[id]' AND `thumb`='1'");
+
+       if(mysqli_num_rows($thumb_q)>0){
+        $thumb_res = mysqli_fetch_assoc($thumb_q);
+        $car_thumb = CARS_IMG_PATH.$thumb_res['image'];
+       }
+
+       //print Car Card section.heredoc method of printing. feature and facility data not fetching as it did'nt in scripts/cars.js
+        echo <<<data
+        
+         <div class="col-lg-4 col-md-6 my-3">
+          <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
+          <img src="$car_thumb" class="card-img-top">
           <div class="card-body">
-            <h5>Sample Car Name</h5>
-            <h6 class="mb-4">৳2000 Per day</h6>
+            <h5>$car_data[name]</h5>
+            <h6 class="mb-4">৳$car_data[price]</h6>
             <div class="features mb-4">
               <h6 class="mb-1">Features</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                180 hp
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                4 seater
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Heated Seats in winter
-              </span>
+              $features_data 
             </div>
             <div class="facilities mb-4">
               <h6 class="mb-1">Facilities</h6>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Bluetooth connectivity
-              </span>
-              <span class="badge rounded-pill bg-light text-dark text-wrap">
-                Keyless Entry
-              </span>
+              $facilities_data 
             </div>
             <div class="passengers mb-4">
               <h6 class="mb-1">Passengers</h6>
               <span class="badge rounded-pill bg-light text-dark text-wrap">
-                5 Passengers 
+               $car_data[adult] Adults
+              </span>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+               $car_data[children] Children 
               </span>
             </div>
             <div class="rating mb-4">
@@ -244,11 +168,16 @@
             </div>
             <div class="d-flex justify-content-evenly mb-2">
               <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
+              <a href="car_details.php?id=$car_data[id]" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
             </div>
           </div>
+         </div>
         </div>
-      </div>
+
+        data;
+      }
+      ?>
+      
 
       <div class="col-lg-12 text-center mt-5">
         <a href="cars.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Cars >>></a>
@@ -261,23 +190,19 @@
 
   <div class="container">
     <div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-4">
-        <img src="images/features/android.svg" width="80px" alt="">
-        <h5 class="mt-3">Android Auto</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-4">
-        <img src="images/features/apple.svg" width="80px" alt="">
-        <h5 class="mt-3">Apple Carplay</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-4">
-        <img src="images/features/wind.svg" width="80px" alt="">
-        <h5 class="mt-3">AC enabled</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-4">
-        <img src="images/features/bluetooth.svg" width="80px" alt="">
-        <h5 class="mt-3">Bluetooth</h5>
-      </div>
 
+    <?php 
+      $res= mysqli_query($con,"SELECT * FROM`facilities` ORDER BY `id` DESC LIMIT 5");
+      $path= FACILITIES_IMG_PATH;
+      while($row = mysqli_fetch_assoc($res)){
+      echo<<<data
+      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-4">
+        <img src="$path$row[icon]" width="60px" alt="">
+        <h5 class="mt-3">$row[name]</h5>
+      </div>
+     data;
+     }
+   ?>
       <div class="col-lg-12 text-center mt-5">
         <a href="facilities.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Facilities >>></a>
       </div>
