@@ -1,11 +1,8 @@
 <div class="container-fluid bg-white mt-5">
     <div class="row">
         <div class="col-lg-6 p-4">
-            <h3 class="h-font fw-bold fs-3 ">Car Venture</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Rem dolor quod tempora autem laboriosam adipisci modi recusandae hic alias,
-                quaerat distinctio, ex molestiae consequatur non sequi, harum aliquam consectetur voluptatibus.
-            </p>
+            <h3 class="h-font fw-bold fs-3 "><?php echo $settings_r['site_title']  ?></h3>
+            <p><?php echo $settings_r['site_about']  ?></p>
         </div>
         <div class="col-lg-6 p-4">
             <h5 class="mb-3">Links</h5>

@@ -3,15 +3,17 @@ require('admin/inc/db_config.php');
 require('admin/inc/essentials.php');
 
 $contacts_q = "SELECT * FROM `contact_details` WHERE `sr_no`=?";
+$settings_q = "SELECT * FROM `settings` WHERE `sr_no`=?";
 $values = [1];
 $contact_r = mysqli_fetch_assoc(select($contacts_q,$values,'i'));
+$settings_r = mysqli_fetch_assoc(select($settings_q,$values,'i'));
 // print_r($contact_r)
 ?>
 
 <!-- Navbar -->
 <nav id="nav-bar" class="navbar navbar-expand-lg navbar-light bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand me-5 fw-bold fs-3 h-font" href="index.php">Car Venture</a>
+      <a class="navbar-brand me-5 fw-bold fs-3 h-font" href="index.php"><?php echo $settings_r['site_title']  ?></a>
       <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
