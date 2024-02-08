@@ -1,14 +1,4 @@
-<?php
-require('admin/inc/db_config.php');
-require('admin/inc/essentials.php');
 
-$contacts_q = "SELECT * FROM `contact_details` WHERE `sr_no`=?";
-$settings_q = "SELECT * FROM `settings` WHERE `sr_no`=?";
-$values = [1];
-$contact_r = mysqli_fetch_assoc(select($contacts_q,$values,'i'));
-$settings_r = mysqli_fetch_assoc(select($settings_q,$values,'i'));
-// print_r($contact_r)
-?>
 
 <!-- Navbar -->
 <nav id="nav-bar" class="navbar navbar-expand-lg navbar-light bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">

@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Venture - HOME</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <?php require ('inc/links.php') ?>
-  
+  <title><?php echo $settings_r['site_title']?> - HOME</title> 
   <style>
     .availability-form {
       margin-top: -50px;
@@ -130,6 +129,11 @@
         $thumb_res = mysqli_fetch_assoc($thumb_q);
         $car_thumb = CARS_IMG_PATH.$thumb_res['image'];
        }
+      //canceling book now btn if site is shutdown
+       $book_btn = "";
+       if(!$settings_r['shutdown']){
+        $book_btn = "<a href='#' class='btn btn-sm text-white custom-bg shadow-none'>Book Now</a>";
+       }
 
        //print Car Card section.heredoc method of printing. feature and facility data not fetching as it did'nt in scripts/cars.js
         echo <<<data
@@ -167,7 +171,7 @@
               </span>
             </div>
             <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+              $book_btn
               <a href="car_details.php?id=$car_data[id]" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
             </div>
           </div>

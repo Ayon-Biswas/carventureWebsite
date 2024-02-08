@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Venture - CARS</title>
   <?php require ('inc/links.php') ?>
+  <title><?php echo $settings_r['site_title']?> - CARS</title>
 </head>
 
 <body class="bg-light">
@@ -109,6 +109,12 @@
         $car_thumb = CARS_IMG_PATH.$thumb_res['image'];
        }
 
+      //canceling book now btn if site is shutdown
+       $book_btn = "";
+       if(!$settings_r['shutdown']){
+        $book_btn = "<a href='#' class='btn btn-sm w-100 text-white custom-bg shadow-none mb-2'>Book Now</a>";
+       }
+
        //print Car Card section.heredoc method of printing. feature and facility data not fetching as it did'nt in scripts/cars.js
         echo <<<data
         
@@ -142,7 +148,7 @@
           </div>
           <div class="col-md-2 text-center">
            <h6 class="mb-4">৳$car_data[price] Per day</h6>
-            <a href="#" class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book Now</a>
+            $book_btn
             <a href="car_details.php?id=$car_data[id]" class="btn btn-sm w-100 btn-outline-dark shadow-none">More Details</a>
           </div>
         </div>
