@@ -93,7 +93,7 @@
       <div class="col-lg-5 col-md-12 px-4">
         <div class="card mb-4 border-0 shadow-sm rounded-3">
           <div class="card-body">
-            <form action="#" id="booking_form">
+            <form action="pay_now.php" method="POST" id="booking_form">
              <h6 class="mb-3">BOOKING DETAILS</h6>
              <div class="row">
               <div class="col-md-6 mb-3">
@@ -110,11 +110,11 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Pick up</label>
-                <input name="pickup" type="date" class="form-control shadow-none" required>
+                <input name="pickup" onchange="check_availability()" type="date" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 mb-4">
                 <label class="form-label">Drop off</label>
-                <input name="dropoff" type="date" class="form-control shadow-none" required>
+                <input name="dropoff" onchange="check_availability()" type="date" class="form-control shadow-none" required>
               </div>
               <div class="col-12">
                 <div class="spinner-border text-info mb-3 d-none" id="info_loader" role="status">
@@ -123,7 +123,7 @@
 
                 <h6 class="mb-3 text-danger" id="pay_info">Provide Pick up and Drop off date!</h6>
 
-               <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1" disabled>Pay Now</button> 
+               <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1" disabled>Pay Now (Cash on Pickup)</button> 
               </div>
               
              </div>
@@ -141,7 +141,65 @@
   <?php include "inc/footer.php";?>
 
 <script>
-  
+  let booking_form = document.getElementById('booking_form');
+  let info_loader = document.getElementById('info_loader');
+  let pay_info = document.getElementById('pay_info');
+
+  function check_availability()
+  {
+   let pickup_val = booking_form.elements['pickup'].value;
+   let dropoff_val = booking_form.elements['dropoff'].value;
+
+   booking_form.elements['pay_now'].setAttribute('disabled',true); //setAttribute a js function.
+
+   if(pickup_val!='' && dropoff_val!='')
+   {
+     pay_info.classList.add('d-none'); //hides the "d-none" class in h6 tag that prompts the user to select date
+     pay_info.classList.replace('text-dark','text-danger');
+     info_loader.classList.remove('d-none'); //removes the "d-none" class in spinner after the user to selects date
+
+     let data = new FormData();
+
+     data.append('check_availability','');
+     data.append('pick_up',pickup_val);
+     data.append('drop_off',dropoff_val);
+
+     let xhr = new XMLHttpRequest();
+      xhr.open("POST", "ajax/confirm_booking.php", true);
+
+      xhr.onload = function () 
+      {
+      let data = JSON.parse(this.responseText);
+       
+        if(data.status == 'pick_up_drop_of_equal')
+        {
+         pay_info.innerText="You cannot drop off on the same day!";
+        }
+        else if(data.status == 'drop_of_earlier')
+        {
+         pay_info.innerText= "Drop off date is earlier than the pickup date!";
+        }
+        else if(data.status == 'pick_up_earlier')
+        {
+         pay_info.innerText="Pick up date is earlier than today's date!";
+        }
+        else if(data.status == 'unavailable')
+        {
+         pay_info.innerText="Car is not available for this pickup date!";
+        }
+        else{
+          // pay_info.innerText="No of Days: "+data.days+"<br> Total Amount to pay: ৳"+data.payment;
+          pay_info.innerText = "No of Days: " + data.days + " & Total Amount to pay: ৳" + data.payment;
+          pay_info.classList.replace('text-danger','text-dark');
+          booking_form.elements['pay_now'].removeAttribute('disabled');
+        }
+        pay_info.classList.remove('d-none');
+        info_loader.classList.add('d-none');
+      }
+
+    xhr.send(data);
+   }
+  }
 </script>
 
 </body>
