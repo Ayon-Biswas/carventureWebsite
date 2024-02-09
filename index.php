@@ -132,7 +132,12 @@
       //canceling book now btn if site is shutdown
        $book_btn = "";
        if(!$settings_r['shutdown']){
-        $book_btn = "<a href='#' class='btn btn-sm text-white custom-bg shadow-none'>Book Now</a>";
+        $login = 0;
+        if(isset($_SESSION['login']) && $_SESSION['login']==true)
+          {
+            $login = 1;
+          }
+        $book_btn = "<button onclick='checkLoginToBook($login,$car_data[id])' class='btn btn-sm text-white custom-bg shadow-none'>Book Now</button>";
        }
 
        //print Car Card section.heredoc method of printing. feature and facility data not fetching as it did'nt in scripts/cars.js

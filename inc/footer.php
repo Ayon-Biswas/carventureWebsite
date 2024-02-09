@@ -150,8 +150,15 @@ function remAlert(){
         alert('error','Incorrect password');
        }
        else{
-        window.location = window.location.pathname;//in browser we want to reload the page the specific page from which user logs in.href can be maniputed but pathname shows absolute path of url.
-
+        //split function will split data in form of array behalf of specific character like "/".pop function elements last index of array.
+        let fileurl = window.location.href.split('/').pop().split('?').shift();
+        if(fileurl == 'car_details.php'){
+          window.location = window.location.href;
+        }
+        else{
+         window.location = window.location.pathname;//in browser we want to reload the page the specific page from which user logs in.href can be maniputed but pathname shows absolute path of url. 
+        }
+        
        }
     }
 
@@ -199,6 +206,15 @@ function remAlert(){
     xhr.send(data);
       
     });
+
+   function checkLoginToBook(status,car_id){
+     if(status){
+      window.location.href='confirm_booking.php?id='+car_id;
+     }
+     else{
+      alert('error','Please login to book car');
+     }
+   }
 
 
     setActive();
