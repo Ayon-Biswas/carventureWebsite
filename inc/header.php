@@ -121,11 +121,12 @@
               <div class="row">
                 <div class="col-md-6 ps-0 mb-3">
                   <label class="form-label">Name</label>
-                  <input name="name" type="text" class="form-control shadow-none" required>
+                  <input name="name" type="text" class="form-control shadow-none" required pattern="^[a-zA-Z-' ]+$" title="A-Z or a-z">
                 </div>
                 <div class="col-md-6 p-0 mb-3">
                   <label class="form-label">Email</label>
-                  <input name="email" type="email" class="form-control shadow-none" required>
+                  <input name="email" type="email" class="form-control shadow-none" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                    title="combination of letter digit special characters like(@ % .)">
                 </div>
                 <div class="col-md-6 ps-0 mb-3">
                   <label class="form-label">Phone Number</label>
@@ -149,11 +150,13 @@
                 </div>
                 <div class="col-md-6 ps-0 mb-3">
                   <label class="form-label">Password</label>
-                  <input name="pass" type="password" class="form-control shadow-none" required>
+                  <input name="pass" type="password" class="form-control shadow-none" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
+                    title="atleast 8 characters with atleast 1 alphabet and digit">
                 </div>
                 <div class="col-md-6 p-0 mb-3">
                   <label class="form-label">Confirm Password</label>
-                  <input name="cpass" type="password" class="form-control shadow-none" required>
+                  <input name="cpass" type="password" class="form-control shadow-none" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
+                    title="atleast 8 characters with atleast 1 alphabet and digit">
                 </div>
               </div>
             </div>
