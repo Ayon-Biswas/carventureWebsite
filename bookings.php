@@ -1,38 +1,42 @@
-<?php 
-require ('inc/essentials.php');
-require ('inc/db_config.php');
-adminLogin();
-
-if(isset($_GET['del']))
-{
-  $frm_data = filteration($_GET);
-  $q="DELETE FROM `booking_details` WHERE `sr_no`=?";
-   $values=[$frm_data['del']]; //we have to pass the id `del`
-    if(delete($q,$values,'i')){   //'i' means data type.integer(i).delete is coded in db_config.php
-      alert('success','Booking canceled!');
-    }
-    else{
-      alert('error','Operation Failed');
-    }  
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - User Bookings</title>
-    <?php require ('inc/links.php');?>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <?php require ('inc/links.php') ?>
+  <title><?php echo $settings_r['site_title']?> -BOOKINGS</title>
 </head>
 
 <body class="bg-light">
-    <?php require ('inc/header.php');?>
 
-    <div class="container-fluid" id="main-content">
+  <!-- Header -->
+  <?php 
+  include "inc/header.php";
+
+  if(!(isset($_SESSION['login']) && $_SESSION['login']==true)){
+    redirect('index.php');
+  }
+  ?>
+
+
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-12 my-5 px-4">
+        <h2 class="text-center">BOOKINGS</h2>
+        <div style="font-size:14px;">
+          <a href="index.php" class="text-secondary text-decoration-none">Home</a>
+          <span class="text-secondary"> > </span>
+          <a href="#" class="text-secondary text-decoration-none">Bookings</a>
+        </div>
+      </div>
+
+      <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">User Bookings</h3>
+                <h3 class="mb-4">Bookings Made</h3>
 
                 <!-- User Bookings section -->
                 <div class="card border-0 shadow-sm mb-4">
@@ -52,7 +56,10 @@ if(isset($_GET['del']))
                                 </thead>
                                 <tbody>
                                     <?php 
-                                     $q= "SELECT * FROM `booking_details` ORDER BY `sr_no` DESC"; //DESC stands for descending order.So that we can see new data first.
+                                    $q= "SELECT *
+                                    FROM booking_details
+                                    WHERE user_name = '{$_SESSION['uName']}'";
+                                    //  $q= "SELECT * FROM `booking_details` ORDER BY `sr_no` DESC"; //DESC stands for descending order.So that we can see new data first.
                                      $data = mysqli_query($con,$q); //manual query no value passed all fixed.
                                      $i=1; //number of rows present till that will counting go
                                      
@@ -85,8 +92,18 @@ if(isset($_GET['del']))
             </div>
         </div>
     </div>
+     
 
-    <?php require ('inc/scripts.php');?>
+      
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <?php include "inc/footer.php";?>
+
+
+
 </body>
 
 </html>
