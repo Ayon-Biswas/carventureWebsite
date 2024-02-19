@@ -41,7 +41,10 @@ if(isset($_POST['check_availability']))
     session_start();
     $_SESSION['car'];
 
-    //run query to check car is available or not(will be doing it later)
+    //run query to check car is available or not
+
+
+    
 
    $count_days = date_diff($pickup_date,$dropoff_date)->days; // "->" it means that an object is returned from which we are extracting "days" value.
    $payment = $_SESSION['car']['price'] * $count_days;

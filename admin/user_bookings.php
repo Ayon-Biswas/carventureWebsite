@@ -42,6 +42,9 @@ if(isset($_GET['del']))
                                 <thead class="sticky-top">
                                     <tr class="bg-dark text-light">
                                         <th scope="col">#</th>
+                                        <th scope="col">Car Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Total Pay</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Phone no:</th>
                                         <th scope="col" width="20%">Address</th>
@@ -65,6 +68,9 @@ if(isset($_GET['del']))
                                         echo<<<query
                                           <tr>
                                            <td>$i</td>
+                                           <td>$row[car_name]</td>
+                                           <td>$row[price]</td>
+                                           <td>$row[total_pay]</td>
                                            <td>$row[user_name]</td>
                                            <td>$row[phonenum]</td>
                                            <td>$row[address]</td>
