@@ -116,6 +116,7 @@ if(isset($_POST['register']))
         exit;
      }
      
+     //password encryption
      $enc_pass = password_hash($data['pass'],PASSWORD_BCRYPT);
 
      $query = "INSERT INTO `user_cred`(`name`, `email`, `address`, `phonenum`, `pincode`, `dob`, 

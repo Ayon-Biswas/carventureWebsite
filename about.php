@@ -19,7 +19,7 @@
   <!-- Header -->
   <?php include "inc/header.php";?>
 
-  <!-- Facilities -->
+  <!-- About us heading -->
   <div class="my-5 px-4">
     <h2 class="text-center fw-bold h-font">About Us</h2>
     <div class="h-line bg-dark"></div>
@@ -70,25 +70,19 @@
       <div class="col-lg-3 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/car-front-fill.svg" width="70px">
-          <h4>Lot's of Cars</h4>
+          <h4>Find your choice of Cars</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/person-arms-up.svg" width="70px">
-          <h4>Happy Customers</h4>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4 px-4">
-        <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
-          <img src="images/about/stars.svg" width="70px">
-          <h4>10+ Reviews</h4>
+          <h4>Enjoy the feeling of car ownership</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/memory.svg" width="70px">
-          <h4>Cherish Memories</h4>
+          <h4>Make Memories that last</h4>
         </div>
       </div>
     </div>

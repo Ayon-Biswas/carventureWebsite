@@ -9,7 +9,7 @@ if(isset($_GET['del']))
   $q="DELETE FROM `booking_details` WHERE `sr_no`=?";
    $values=[$frm_data['del']]; //we have to pass the id `del`
     if(delete($q,$values,'i')){   //'i' means data type.integer(i).delete is coded in db_config.php
-      alert('success','Booking canceled!');
+      alert('success','Booking deleted!');
     }
     else{
       alert('error','Operation Failed');
@@ -47,6 +47,7 @@ if(isset($_GET['del']))
                                         <th scope="col" width="20%">Address</th>
                                         <th scope="col">Pick Up</th>
                                         <th scope="col">Drop off</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -56,10 +57,10 @@ if(isset($_GET['del']))
                                      $data = mysqli_query($con,$q); //manual query no value passed all fixed.
                                      $i=1; //number of rows present till that will counting go
                                      
-                                     // Cancel booking button section
+                                     // Delete booking button section
                                      while($row = mysqli_fetch_assoc($data)){
-                                        $cancel ='';
-                                         $cancel.="<a href='?del=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger mt-2'>Cancel</a>";//anchor tag sends GET request to delete
+                                        $delete ='';
+                                         $delete.="<a href='?del=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger mt-2'>Delete Record</a>";//anchor tag sends GET request to delete
                                         //heredoc method of printing 
                                         echo<<<query
                                           <tr>
@@ -69,7 +70,8 @@ if(isset($_GET['del']))
                                            <td>$row[address]</td>
                                            <td>$row[pickup]</td>
                                            <td>$row[dropoff]</td>
-                                           <td>$cancel</td>
+                                           <td>$row[status]</td>
+                                           <td>$delete</td>
                                           </tr>
                                         query;
                                         $i++;
