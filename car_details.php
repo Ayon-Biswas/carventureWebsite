@@ -94,15 +94,6 @@
            <h4>৳$car_data[price] Per day</h4>
            price;
 
-           echo <<<rating
-           <div class="mb-3">
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-           </div>
-           rating;
-
            //get features of car
            $fea_q = mysqli_query($con,"SELECT f.name FROM `features` f 
            INNER JOIN `car_features` cfea ON f.id = cfea.features_id 
@@ -185,24 +176,6 @@
             echo $car_data['description']
           ?>
           </p>
-          <div>
-            <h5>Reviews & Ratings</h5>
-            <div>
-              <div class="d-flex align-items-center mb-2">
-                <img src="images/features/wind.svg" width="30px">
-                <h6 class="m-0 ms-2">Random User1</h6>
-              </div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Illo deleniti aliquam suscipit ut dolorum possimus
-                magni iure maiores soluta quam.</p>
-              <div class="rating">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

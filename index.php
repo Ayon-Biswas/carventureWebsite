@@ -166,15 +166,6 @@
                $car_data[children] Children 
               </span>
             </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-              </span>
-            </div>
             <div class="d-flex justify-content-evenly mb-2">
               $book_btn
               <a href="car_details.php?id=$car_data[id]" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
@@ -217,64 +208,7 @@
       </div>
     </div>
   </div>
-<!-- Testimonials -->
-  <h2 class="mt-5 pt-4 text-center fw-bold h-font">Testimonials</h2>
 
-  <div class="container">
-   <div class="swiper swiper-testimonials">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-            <img src="images/features/wind.svg" width="30px">
-            <h6 class="m-0 ms-2">Random User1</h6>
-          </div>
-           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Illo deleniti aliquam suscipit ut dolorum possimus
-            magni iure maiores soluta quam.</p>
-            <div class="rating">
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-            </div>
-      </div>
-      <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-            <img src="images/features/wind.svg" width="30px">
-            <h6 class="m-0 ms-2">Random User2</h6>
-          </div>
-           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Illo deleniti aliquam suscipit ut dolorum possimus
-            magni iure maiores soluta quam.</p>
-            <div class="rating">
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-          </div>
-      </div>
-      <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-            <img src="images/features/wind.svg" width="30px">
-            <h6 class="m-0 ms-2">Random User3</h6>
-          </div>
-           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Illo deleniti aliquam suscipit ut dolorum possimus
-            magni iure maiores soluta quam.</p>
-            <div class="rating">
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-             <i class="bi bi-star-fill text-warning"></i>
-          </div>
-      </div>
-      
-    </div>
-    <div class="swiper-pagination"></div>
-  </div>
-      <div class="col-lg-12 text-center mt-5">
-        <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Testimonials >>></a>
-      </div>
 <!-- Find Us @ -->
 <?php
 
@@ -398,38 +332,6 @@ if(isset($_GET['account_recovery']))
       }
     });
 
-    var swiper = new Swiper(".swiper-testimonials", {
-      effect: "coverflow",
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: "auto",
-      slidesPerView: "3",
-      loop: true,
-      coverflowEffect: {
-        rotate: 50,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-      },
-      breakpoints: {
-        320: {
-          slidesPerView:1,
-        },
-        640: {
-          slidesPerView:1,
-        },
-        768: {
-          slidesPerView:2,
-        },
-        1024: {
-          slidesPerView:3,
-        },
-      }
-    });
 
     //recover account
     let recovery_form = document.getElementById('recovery-form');
