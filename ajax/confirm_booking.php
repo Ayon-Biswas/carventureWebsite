@@ -40,22 +40,6 @@ if(isset($_POST['check_availability']))
   else{
     session_start();
     $_SESSION['car'];
-
-    //run query to check car is available or not
-    // $tb_query = "SELECT COUNT(*) AS `total_bookings` FROM `booking_details` WHERE `dropoff`> ? AND `pickup`< ?";
-
-    // $values = [$frm_data['pickup'],$frm_data['dropoff']];
-    // $tb_fetch = mysqli_fetch_assoc(select($tb_query,$values,'ss'));
-
-    // $rq_result = select("SELECT `quantity` FROM `cars` WHERE `id`=?",[$_SESSION['car']['id']],'i');
-    // $rq_fetch = mysqli_fetch_assoc($rq_result);
-
-    // if(($rq_fetch['quantity']-$tb_fetch['total_bookings'])==0){
-    //   $status = 'unavailable';
-    //   $result = json_encode(['status'=>$status]);
-    //   echo $result;
-    //   exit;
-    // }
     
 
    $count_days = date_diff($pickup_date,$dropoff_date)->days; // "->" it means that an object is returned from which we are extracting "days" value.
