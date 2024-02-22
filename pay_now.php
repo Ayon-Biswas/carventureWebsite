@@ -30,10 +30,10 @@ if(isset($_POST['pay_now'])){
     ], 'ssssssss');
 
     if ($result) {
-        echo '<script>alert("success","Car booked");</script>';
+        echo '<script>alert("Car booked");</script>';
         redirect('cars.php');
     } else {
-        echo '<script>alert("error","Booking failed");</script>';
+        echo '<script>alert("Booking failed");</script>';
     }
 }
 
