@@ -49,7 +49,7 @@
   </div>
 
   <!-- check availability form -->
-  <div class="container availability-form">
+  <!-- <div class="container availability-form">
     <div class="row">
       <div class="col-lg-12 bg-white shadow p-4 rounded">
         <h5 class="mb-4">Check Booking Availability</h5>
@@ -86,7 +86,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!--Our Cars -->
   <h2 class="mt-5 pt-4 text-center fw-bold h-font">OUR CARS</h2>

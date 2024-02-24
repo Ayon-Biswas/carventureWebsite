@@ -1,10 +1,17 @@
 <?php
 require ('../admin/inc/db_config.php');
 require ('../admin/inc/essentials.php');
+date_default_timezone_set("Asia/Dhaka"); //php supported timezone under asia,dhaka the closest region to us.
+
 session_start();
 
 if(isset($_GET['fetch_cars']))
 {
+   //passengers data decode.if the adult/children index in passemgers is not empty then assign the value otherwise assign 0
+   $passengers = json_decode($_GET['passengers'],true);
+   $adults = ($passengers['adults']!='') ? $passengers['adults'] : 0;
+   $childrens = ($passengers['childrens']!='') ? $passengers['childrens'] : 0;
+    
     //count no of cars and output variable to store car cards
     $count_cars = 0;
     $output = "";
@@ -13,8 +20,8 @@ if(isset($_GET['fetch_cars']))
     $settings_q = "SELECT * FROM `settings` WHERE `sr_no`=1";
     $settings_r = mysqli_fetch_assoc(mysqli_query($con,$settings_q,));
     
-    //query for cars cards
-    $car_res =select("SELECT * FROM `cars` WHERE `status`=? AND `removed`=?",[1,0],'ii'); //`status` should be 1 `removed` should be 0."ii" are integer datatypes.
+    //query for cars cards with passengers filter
+    $car_res =select("SELECT * FROM `cars` WHERE `adult`>=? AND `children`>=? AND `status`=? AND `removed`=?",[$adults,$childrens,1,0],'iiii'); //`status` should be 1 `removed` should be 0."ii" are integer datatypes.
 
     while($car_data = mysqli_fetch_assoc($car_res))
     {
