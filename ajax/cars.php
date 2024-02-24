@@ -11,7 +11,11 @@ if(isset($_GET['fetch_cars']))
    $passengers = json_decode($_GET['passengers'],true);
    $adults = ($passengers['adults']!='') ? $passengers['adults'] : 0;
    $childrens = ($passengers['childrens']!='') ? $passengers['childrens'] : 0;
-    
+
+   //facilities data decode
+    $facilities_list = json_decode($_GET['facilities_list'],true);
+
+
     //count no of cars and output variable to store car cards
     $count_cars = 0;
     $output = "";
@@ -25,6 +29,27 @@ if(isset($_GET['fetch_cars']))
 
     while($car_data = mysqli_fetch_assoc($car_res))
     {
+           //get facilities of car with filters
+    $fac_count = 0;
+
+    $fac_q = mysqli_query($con,"SELECT f.name, f.id FROM `facilities` f 
+    INNER JOIN `car_facilities` cfac ON f.id = cfac.facilities_id 
+    WHERE cfac.car_id = '$car_data[id]'");
+
+    $facilities_data = "";
+
+    while($fac_row = mysqli_fetch_assoc($fac_q))
+    {
+      if(in_array($fac_row['id'],$facilities_list['facilities'])){
+        $fac_count++;
+      }
+      $facilities_data .="<span class='badge rounded-pill bg-light text-dark text-wrap  me-1 mb-1'>$fac_row[name]</span>";
+    }
+     
+    if(count($facilities_list['facilities'])!=$fac_count){
+      continue;
+    }
+
       //get features of car
       $fea_q = mysqli_query($con,"SELECT f.name FROM `features` f 
       INNER JOIN `car_features` cfea ON f.id = cfea.features_id 
@@ -36,16 +61,7 @@ if(isset($_GET['fetch_cars']))
         $features_data .="<span class='badge rounded-pill bg-light text-dark text-wrap  me-1 mb-1'>$fea_row[name]</span>";
 
       }
-      //get facilities of car
-      $fac_q = mysqli_query($con,"SELECT f.name FROM `facilities` f 
-      INNER JOIN `car_facilities` cfac ON f.id = cfac.facilities_id 
-      WHERE cfac.car_id = '$car_data[id]'");
-
-      $facilities_data = "";
-
-      while($fac_row = mysqli_fetch_assoc($fac_q)){
-        $facilities_data .="<span class='badge rounded-pill bg-light text-dark text-wrap  me-1 mb-1'>$fac_row[name]</span>";
-     }
+      
      //get thumbnail of image.if no thumbnail is selected then the deafult image will be shown.
      
      $car_thumb = CARS_IMG_PATH."thumbnail.png";

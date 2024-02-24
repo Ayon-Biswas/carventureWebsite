@@ -38,21 +38,17 @@
                    <button id="facilities_btn" onclick="facilities_clear()" class="btn shadow-none btn-sm text-secondary d-none">Reset</button>
                  </h5>
                  <?php 
-                 
+                 $facilities_q = selectAll('facilities');
+                 while($row = mysqli_fetch_assoc($facilities_q))
+                 {
+                   echo<<<facilities
+                   <div class="mb-2">
+                    <input type="checkbox" onclick="fetch_cars()" name="facilities" value="$row[id]" class="form-check-input shadow-none mb-3 me-1" id="$row[id]">
+                    <label class="form-label" for="$row[id]">$row[name]</label>
+                   </div>
+                   facilities;
+                 }
                  ?>
-                <div class="mb-2">
-                  <input type="checkbox" id="f1" class="form-check-input shadow-none mb-3 me-1">
-                  <label class="form-label" for="f1">Facility 1</label>
-                </div>
-                <div class="mb-2">
-                  <input type="checkbox" id="f2" class="form-check-input shadow-none mb-3 me-1">
-                  <label class="form-label" for="f2">Facility 2</label>
-                </div>
-                <div class="mb-2">
-                  <input type="checkbox" id="f3" class="form-check-input shadow-none mb-3 me-1">
-                  <label class="form-label" for="f3">Facility 3</label>
-                </div>
-              </div>
               <!-- Passengers -->
               <div class="border bg-light p-3 rounded mb-3">
                 <h5 class="d-flex align-items-center justify-content-between mb-3" style="font-size:18px;">
@@ -91,10 +87,12 @@
   <script>
 
     let cars_data = document.getElementById("cars-data");
+
     let adults = document.getElementById("adults");
     let childrens = document.getElementById("childrens");
     let passenger_btn = document.getElementById("passenger_btn");
 
+    let facilities_btn = document.getElementById("facilities_btn");
 
     function fetch_cars()
     {
@@ -103,8 +101,24 @@
         childrens: childrens.value
       });
 
+      let facilities_list = {"facilities":[]};
+
+      let get_facilities = document.querySelectorAll('[name="facilities"]:checked');
+      if(get_facilities.length>0)
+      {
+        get_facilities.forEach((facility)=>{
+          facilities_list.facilities.push(facility.value);
+        });
+        facilities_btn.classList.remove('d-none');
+      }
+      else{
+        facilities_btn.classList.add('d-none');
+      }
+
+      facilities_list = JSON.stringify(facilities_list);
+
       let xhr = new XMLHttpRequest();
-      xhr.open("GET", "ajax/cars.php?fetch_cars&passengers="+passengers, true);
+      xhr.open("GET", "ajax/cars.php?fetch_cars&passengers="+passengers+"&facilities_list="+facilities_list,true);
 
       xhr.onprogress = function(){
        cars_data.innerHTML = `<div class="spinner-border text-info mb-3 d-block mx-auto" id="loader" role="status">
@@ -132,7 +146,15 @@
       passenger_btn.classList.add('d-none');
       fetch_cars();
     }
-
+    
+    function facilities_clear(){
+      let get_facilities = document.querySelectorAll('[name="facilities"]:checked');
+      get_facilities.forEach((facility)=>{
+        facility.checked=false;
+      });
+        facilities_btn.classList.add('d-none');
+      fetch_cars();
+    }
 
 
     fetch_cars();
