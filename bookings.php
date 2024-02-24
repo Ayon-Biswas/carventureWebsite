@@ -17,6 +17,17 @@
   if(!(isset($_SESSION['login']) && $_SESSION['login']==true)){
     redirect('index.php');
   }
+  if(isset($_GET['cancel'])){
+    $frm_data = filteration($_GET);
+    $q="UPDATE `booking_details` SET `status`= 0 WHERE `sr_no`=?";
+    $values=[$frm_data['cancel']];
+    if(update($q,$values,'i')){   //'i' means data type.integer(i).delete is coded in db_config.php
+      alert('success','Booking Canceled!');
+    }
+    else{
+      alert('error','Operation Failed');
+    } 
+  }
   ?>
 
 
@@ -69,7 +80,7 @@
                                      // Cancel booking button section
                                      while($row = mysqli_fetch_assoc($data)){
                                         $cancel ='';
-                                         $cancel.="<a href='?del=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger mt-2'>Cancel</a>";//anchor tag sends GET request to delete
+                                         $cancel.="<a href='?cancel=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger mt-2'>Cancel</a>";//anchor tag sends GET request to delete
                                         //heredoc method of printing 
                                         echo<<<query
                                           <tr>
