@@ -28,12 +28,23 @@ $current_users = mysqli_fetch_assoc(mysqli_query($con,"SELECT
         COUNT( CASE WHEN `status`=0 THEN 1 END) AS `inactive`,
         COUNT( CASE WHEN `is_verified`=0 THEN 1 END) AS `unverified`
         FROM `user_cred` "));
+
+$current_bookings = mysqli_fetch_assoc(mysqli_query($con,"SELECT 
+        COUNT(sr_no) AS `total_bookings`,
+        SUM(total_pay) AS `total_amount`,
+
+        COUNT( CASE WHEN `status`=1 THEN 1 END) AS `active_bookings`,
+        SUM( CASE WHEN `status`=1 THEN `total_pay` END) AS `active_amount`,
+
+        COUNT( CASE WHEN `status`=0 THEN 1 END) AS `canceled_bookings`,
+        SUM( CASE WHEN `status`=0 THEN `total_pay` END) AS `canceled_amount`
+        FROM `booking_details` "));
 ?>
 
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-
+               <!-- shutdown badge section -->
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h3>DASHBOARD</h3>
                 <?php
@@ -45,7 +56,7 @@ $current_users = mysqli_fetch_assoc(mysqli_query($con,"SELECT
                 ?>
                 
               </div>
-               <!-- Basic info in card user queries -->
+               <!-- user queries info in card -->
               <div class="row mb-4">
                 <div class="col-md-12 mb-4">
                   <a href="user_queries.php" class="text-decoration-none">
@@ -60,35 +71,28 @@ $current_users = mysqli_fetch_assoc(mysqli_query($con,"SELECT
               <!-- booking analytics section -->
               <div class="d-flex align-items-center justify-content-between mb-3">
                 <h5>Booking Analytics</h5>
-                <select class="form-select shadow-none bg-light w-auto">
-                 <option value="1">Past 7 days</option>
-                 <option value="2">Past 30 days</option>
-                 <option value="3">Past 90 days</option>
-                 <option value="4">Past 1 year</option>
-                 <option value="5">All Time</option>
-                </select>
               </div>
 
               <div class="row mb-3">
                  <div class="col-md-3 mb-4">
                     <div class="card text-center p-3 text-primary">
                        <h6>Total Bookings</h6>
-                       <h1 class="mt-2 mb-0">0</h1>
-                       <h1 class="mt-2 mb-0">৳ 0</h1>
+                       <h1 class="mt-2 mb-0"><?php echo $current_bookings['total_bookings']?></h1>
+                       <h1 class="mt-2 mb-0">৳ <?php echo $current_bookings['total_amount']?></h1>
                     </div>
                  </div>
                  <div class="col-md-3 mb-4">
                     <div class="card text-center p-3 text-success">
                        <h6>Active Bookings</h6>
-                       <h1 class="mt-2 mb-0">0</h1>
-                       <h1 class="mt-2 mb-0">৳ 0</h1>
+                       <h1 class="mt-2 mb-0"><?php echo $current_bookings['active_bookings']?></h1>
+                       <h1 class="mt-2 mb-0">৳ <?php echo $current_bookings['active_amount']?></h1>
                     </div>
                  </div>
                  <div class="col-md-3 mb-4">
-                    <div class="card text-center p-3 text-primary">
+                    <div class="card text-center p-3 text-danger">
                        <h6>Canceled Bookings</h6>
-                       <h1 class="mt-2 mb-0">0</h1>
-                       <h1 class="mt-2 mb-0">৳ 0</h1>
+                       <h1 class="mt-2 mb-0"><?php echo $current_bookings['canceled_bookings']?></h1>
+                       <h1 class="mt-2 mb-0">৳ <?php echo $current_bookings['canceled_amount']?></h1>
                     </div>
                  </div>
               </div>
@@ -96,13 +100,6 @@ $current_users = mysqli_fetch_assoc(mysqli_query($con,"SELECT
               <!-- user,queries analytics section -->
               <div class="d-flex align-items-center justify-content-between mb-3">
                 <h5>Users,Queries Analytics</h5>
-                <select class="form-select shadow-none bg-light w-auto">
-                  <option value="1">Past 7 days</option>
-                  <option value="2">Past 30 days</option>
-                  <option value="3">Past 90 days</option>
-                  <option value="4">Past 1 year</option>
-                  <option value="5">All Time</option>
-                </select>
               </div>
 
               <div class="row mb-3">
