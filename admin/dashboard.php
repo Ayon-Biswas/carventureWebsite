@@ -22,6 +22,12 @@ $is_shutdown = mysqli_fetch_assoc(mysqli_query($con,"SELECT `shutdown` FROM `set
 $unread_queries = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`sr_no`) AS `count` 
    FROM `user_queries` WHERE `seen`=0"));
 
+$total_queries = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`sr_no`) AS `count` 
+   FROM `user_queries` "));
+
+$total_reg = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(`id`) AS `count` 
+   FROM `user_cred` "));
+
 $current_users = mysqli_fetch_assoc(mysqli_query($con,"SELECT 
         COUNT(id) AS `total`,
         COUNT( CASE WHEN `status`=1 THEN 1 END) AS `active`, 
@@ -74,21 +80,21 @@ $current_bookings = mysqli_fetch_assoc(mysqli_query($con,"SELECT
               </div>
 
               <div class="row mb-3">
-                 <div class="col-md-3 mb-4">
+                 <div class="col-md-4 mb-4">
                     <div class="card text-center p-3 text-primary">
                        <h6>Total Bookings</h6>
                        <h1 class="mt-2 mb-0"><?php echo $current_bookings['total_bookings']?></h1>
                        <h1 class="mt-2 mb-0">৳ <?php echo $current_bookings['total_amount']?></h1>
                     </div>
                  </div>
-                 <div class="col-md-3 mb-4">
+                 <div class="col-md-4 mb-4">
                     <div class="card text-center p-3 text-success">
                        <h6>Active Bookings</h6>
                        <h1 class="mt-2 mb-0"><?php echo $current_bookings['active_bookings']?></h1>
                        <h1 class="mt-2 mb-0">৳ <?php echo $current_bookings['active_amount']?></h1>
                     </div>
                  </div>
-                 <div class="col-md-3 mb-4">
+                 <div class="col-md-4 mb-4">
                     <div class="card text-center p-3 text-danger">
                        <h6>Canceled Bookings</h6>
                        <h1 class="mt-2 mb-0"><?php echo $current_bookings['canceled_bookings']?></h1>
@@ -99,20 +105,20 @@ $current_bookings = mysqli_fetch_assoc(mysqli_query($con,"SELECT
 
               <!-- user,queries analytics section -->
               <div class="d-flex align-items-center justify-content-between mb-3">
-                <h5>Users,Queries Analytics</h5>
+                <h5>Users & Queries Analytics</h5>
               </div>
 
               <div class="row mb-3">
-                 <div class="col-md-5 mb-4">
+                 <div class="col-md-6 mb-4">
                     <div class="card text-center p-3 text-success">
-                       <h6>New registration</h6>
-                       <h1 class="mt-2 mb-0">0</h1>
+                       <h6>Total registration</h6>
+                       <h1 class="mt-2 mb-0"><?php echo $total_reg['count']?></h1>
                     </div>
                  </div>
-                 <div class="col-md-5 mb-4">
+                 <div class="col-md-6 mb-4">
                     <div class="card text-center p-3 text-primary">
                        <h6>Queries</h6>
-                       <h1 class="mt-2 mb-0">0</h1>
+                       <h1 class="mt-2 mb-0"><?php echo $total_queries['count']?></h1>
                     </div>
                  </div>
               </div>
