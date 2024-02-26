@@ -24,9 +24,7 @@
     <h2 class="text-center fw-bold h-font">About Us</h2>
     <div class="h-line bg-dark"></div>
     <p class="text-center mt-3">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Quisquam sapiente deleniti suscipit assumenda quo? <br> Totam, fugiat veritatis! Repudiandae, consectetur
-      corporis.
+    Driven by passion, our car rental service aims to provide reliable vehicles, exceptional service.<br>An unforgettable journeys for every customer.
     </p>
   </div>
 
@@ -34,12 +32,12 @@
   <div class="container">  
     <div class="row justify-content-between align-items-center">
       <div class="col-lg-6 col-md-5 mb-4 order-lg-1 order-md-1 order-2">
-        <h3 class="mb-3">Lorem ipsum dolor sit.</h3>
+        <h3 class="mb-3">Ayon Biswas.</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Inventore omnis atque quae eaque tempore quia iste!
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Inventore omnis atque quae eaque tempore quia iste!
+          Hello there! i am Ayon Biswas.
+          I am a student of Leading University,Sylhet.
+          Car Venture is a dream come true for me.
+          To reach out to people and witness the joy of car ownership!my kind of happiness.
         </p>
       </div>
       <div class="col-lg-5 col-md-5 mb-4 order-lg-2 order-md-1 order-1 rounded">
@@ -51,12 +49,12 @@
   <div class="container">
     <div class="row justify-content-between align-items-center">
       <div class="col-lg-6 col-md-5 mb-4 order-lg-2 order-md-2 order-1">
-        <h3 class="mb-3">Lorem ipsum dolor sit.</h3>
+        <h3 class="mb-3">Boby Rani Das</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Inventore omnis atque quae eaque tempore quia iste!
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Inventore omnis atque quae eaque tempore quia iste!
+          Hey there! i am Boby.
+          I also am a student of Leading University,Sylhet.
+          Awaken the nomadic wanderlust withing you.
+          Let your with rental car be with us,happy travel.
         </p>
       </div>
       <div class="col-lg-5 col-md-5 mb-4 order-lg-1 order-md-2 order-2 rounded">

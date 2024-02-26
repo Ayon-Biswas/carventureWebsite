@@ -18,8 +18,7 @@
   <h2 class="text-center fw-bold h-font">CONTACT US</h2>
   <div class="h-line bg-dark"></div>
   <p class="text-center mt-3">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Quisquam sapiente deleniti suscipit assumenda quo? <br> Totam, fugiat veritatis! Repudiandae, consectetur corporis.
+  Contact us for seamless car rental services.<br>Our dedicated team is ready to assist you with any inquiries or reservations. Drive with confidence!
   </p>
 </div>
 
