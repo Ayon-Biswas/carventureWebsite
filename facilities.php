@@ -25,8 +25,7 @@
   <h2 class="text-center fw-bold h-font">Our Facilities</h2>
   <div class="h-line bg-dark"></div>
   <p class="text-center mt-3">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Quisquam sapiente deleniti suscipit assumenda quo? <br> Totam, fugiat veritatis! Repudiandae, consectetur corporis.
+  Car Venture provides top-notch facilities, including a diverse fleet, easy booking.<br>Excellent customer support for a seamless rental experience.
   </p>
 </div>
 

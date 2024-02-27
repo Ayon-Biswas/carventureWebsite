@@ -65,19 +65,19 @@
 
   <div class="container mt-5">
     <div class="row">
-      <div class="col-lg-3 col-md-6 mb-4 px-4">
+      <div class="col-lg-4 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/car-front-fill.svg" width="70px">
           <h4>Find your choice of Cars</h4>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4 px-4">
+      <div class="col-lg-4 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/person-arms-up.svg" width="70px">
-          <h4>Enjoy the feeling of car ownership</h4>
+          <h4>Enjoy the vibe of ownership</h4>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4 px-4">
+      <div class="col-lg-4 col-md-6 mb-4 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
           <img src="images/about/memory.svg" width="70px">
           <h4>Make Memories that last</h4>
